@@ -1,12 +1,54 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { ProductService } from './../services/product.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  constructor() {}
+  products = [];
+
+  constructor(
+    public service:ProductService, 
+    public alertController: AlertController
+    ) {}
+
+  ngOnInit() {
+    this.getData()
+  }
+
+  getData(){
+    const data = this.service.getProducts();
+    this.products = data;
+    console.log(this.products)
+  }
+
+  async deleteItemConfirm(id) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      message: 'Do you want to remove this product?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancel');
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.service.deleteProduct(id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 }

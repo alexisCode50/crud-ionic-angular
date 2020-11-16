@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    
+    <ion-item>
+      <ion-label position="stacked">Name</ion-label>
+      <ion-input placeholder="Intro name" formControlName="name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Price</ion-label>
+      <ion-input placeholder="Intro price" formControlName="price"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Stock</ion-label>
+      <ion-input placeholder="Intro stock" formControlName="stock"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" color="success" expand="block">Save</ion-button>
+    <ion-button [routerLink]="['/home']" color="danger" expand="block">Cancel</ion-button>
+
+  </form>
+</ion-content>
