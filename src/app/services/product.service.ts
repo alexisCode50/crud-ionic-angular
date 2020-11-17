@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,18 @@ export class ProductService {
     {id: 704, name: 'Mexican Food', price: 80, stock: 30},
   ];
 
+  countItems = new BehaviorSubject(0);
+
   constructor() { }
 
   getProducts(){
     return this.products;
+  }
+
+  getCountProducts(){
+    let totalItems = this.products.length;
+    this.countItems.next(totalItems);
+    return this.countItems;
   }
 
   getProduct(id){
@@ -23,6 +32,7 @@ export class ProductService {
   }
 
   addProduct(product){
+    this.countItems.next(this.countItems.value + 1);
     return this.products.push(product);
   }
 
@@ -33,6 +43,7 @@ export class ProductService {
 
   deleteProduct(id){
     let product = this.products.findIndex(item => item.id === id);
+    this.countItems.next(this.countItems.value - 1);
     return this.products.splice(product, 1);
   }
 

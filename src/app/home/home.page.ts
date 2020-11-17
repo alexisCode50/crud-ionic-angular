@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { ProductService } from './../services/product.service';
 
 @Component({
@@ -10,14 +11,16 @@ import { ProductService } from './../services/product.service';
 export class HomePage implements OnInit {
 
   products = [];
+  countItems: BehaviorSubject<number>;
 
   constructor(
     public service:ProductService, 
     public alertController: AlertController
-    ) {}
+    ) { }
 
   ngOnInit() {
-    this.getData()
+    this.getData();
+    this.countItems = this.service.getCountProducts();
   }
 
   getData(){
